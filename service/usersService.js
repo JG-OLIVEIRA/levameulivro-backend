@@ -17,7 +17,7 @@ module.exports = {
       firstName: firstName,
       lastName: lastName,
       email: email,
-      password: bcrypt.hash(password, 10),
+      password: await bcrypt.hash(password, 10),
       avatar: avatar,
       birthDate: birthDate,
       zipCode: zipCode,
@@ -60,8 +60,8 @@ module.exports = {
     return user;
   },
   read: async (email, password) => {
-    const user = await db.Usuario.findOne({
-      where: { email: email },
+    const user = await db.User.findOne({
+      where: { email },
     });
 
     const isEqual = await bcrypt.compare(password, user.password);
@@ -70,14 +70,14 @@ module.exports = {
       return {
         token: jwt.sign(
           {
-            id: user.dataValues.id,
+            id: user.id,
           },
           process.env.JWT_KEY,
           {
             expiresIn: "6h",
           }
         ),
-        avatar: user.dataValues.avatar,
+        avatar: user.avatar,
       };
     }
   },
@@ -85,5 +85,16 @@ module.exports = {
     return await db.User.destroy({
       where: { id: id },
     });
+  },
+  find: async (email) => {
+    const user = await db.User.findOne({
+      where: { email },
+    });
+
+    if (user) {
+      return true;
+    }
+
+    return false;
   },
 };
