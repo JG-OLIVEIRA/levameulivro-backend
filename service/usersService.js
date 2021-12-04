@@ -39,6 +39,7 @@ module.exports = {
     };
   },
   update: async (
+    id,
     firstName,
     lastName,
     email,
@@ -47,17 +48,22 @@ module.exports = {
     birthDate,
     zipCode
   ) => {
-    const user = await db.User.update({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: bcrypt.hash(password, 10),
-      avatar: avatar,
-      birthDate: birthDate,
-      zipCode: zipCode,
-    });
+    await db.User.update(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: await bcrypt.hash(password, 10),
+        avatar: avatar,
+        birthDate: birthDate,
+        zipCode: zipCode,
+      },
+      {
+        where: { id },
+      }
+    );
 
-    return user;
+    return { messege: "user updated" };
   },
   read: async (email, password) => {
     const user = await db.User.findOne({
@@ -80,11 +86,15 @@ module.exports = {
         avatar: user.avatar,
       };
     }
+
+    return { error: "incorrect password" };
   },
   destroy: async (id) => {
-    return await db.User.destroy({
-      where: { id: id },
+    await db.User.destroy({
+      where: { id },
     });
+
+    return { messege: "user deleted" };
   },
   find: async (email) => {
     const user = await db.User.findOne({
