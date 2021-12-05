@@ -75,4 +75,13 @@ module.exports = {
 
     return res.status(200).send(user);
   },
+  getAllBooks: async (req, res) => {
+    const decoded = req.headers.authorization;
+
+    const { id } = decoded;
+
+    const books = await usersService.getAllBooks(id);
+
+    return res.status(200).send(books);
+  },
 };

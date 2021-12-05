@@ -107,4 +107,10 @@ module.exports = {
 
     return false;
   },
+  getAllBooks: async (id) => {
+    return await db.User.findByPk(id, {
+      attributes: [],
+      include: "books",
+    });
+  },
 };
