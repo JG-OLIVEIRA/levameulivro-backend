@@ -43,6 +43,24 @@ module.exports = {
 
     return res.status(200).send(books);
   },
+  getById: async (req, res) => {
+    const { id } = req.params;
+
+    const book = await booksService.getById(id);
+
+    return res.status(200).send(book);
+  },
+  getByNameOrAuthorOrISBN: async (req, res) => {
+    const { name, author, isbn } = req.query;
+
+    const booksAndCount = await booksService.getByNameOrAuthorOrISBN(
+      name,
+      author,
+      isbn
+    );
+
+    return res.status(200).send(booksAndCount);
+  },
   destroyById: async (req, res) => {
     const decoded = req.headers.authorization;
 

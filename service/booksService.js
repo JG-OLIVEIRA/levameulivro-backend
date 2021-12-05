@@ -1,4 +1,5 @@
 const db = require("../database/models");
+const { Op } = require("sequelize");
 
 module.exports = {
   create: async (name, author, isbn, user_id, description) => {
@@ -31,6 +32,30 @@ module.exports = {
     const books = await db.Book.findAll();
 
     return books;
+  },
+  getById: async (id) => {
+    const book = await db.Book.findByPk(id);
+
+    return book;
+  },
+  getByNameOrAuthorOrISBN: async (name, author, isbn) => {
+    const { count, rows } = await db.Book.findAndCountAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.startsWith]: name } },
+          { author: { [Op.startsWith]: author } },
+          { isbn: { [Op.startsWith]: isbn } },
+        ],
+      },
+      attributes: ["id", "name", "author"],
+      include: {
+        model: db.User,
+        as: "users",
+        attributes: ["firstName", "completeExchanges", "zipCode"],
+      },
+    });
+
+    return { count: count, books: rows };
   },
   destroyById: async (id, user_id) => {
     await db.Book.destroy({
