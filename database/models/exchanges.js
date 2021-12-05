@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Exchange.associate = function (models) {
-    Exchange.hasMany(models.Book, {
+    Exchange.belongsTo(models.Book, {
       foreignKey: "book_id",
       as: "books",
     });

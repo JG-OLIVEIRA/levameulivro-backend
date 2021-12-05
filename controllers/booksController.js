@@ -18,14 +18,17 @@ module.exports = {
 
     return res.status(200).send(newBook);
   },
-  update: async (req, res) => {
+  updateById: async (req, res) => {
     const { name, author, isbn, description } = req.body;
+
+    const { id } = req.params;
 
     const decoded = req.headers.authorization;
 
     const user_id = decoded.id;
 
-    const book = await booksService.update(
+    const book = await booksService.updateById(
+      id,
       name,
       author,
       isbn,
@@ -35,24 +38,20 @@ module.exports = {
 
     return res.status(200).send(book);
   },
-  read: async (req, res) => {
-    const decoded = req.headers.authorization;
-
-    const user_id = decoded.id;
-
-    const books = await booksService.read(user_id);
+  readAll: async (req, res) => {
+    const books = await booksService.readAll();
 
     return res.status(200).send(books);
   },
-  destroy: async (req, res) => {
-    const { name } = req.params;
-
+  destroyById: async (req, res) => {
     const decoded = req.headers.authorization;
 
-    const id = await decoded.id;
+    const { id } = req.params;
 
-    await usersService.destroy(id, name);
+    const user_id = decoded.id;
 
-    return res.status(200).send({ messege: "book deleted" });
+    const book = await booksService.destroyById(id, user_id);
+
+    return res.status(200).send(book);
   },
 };

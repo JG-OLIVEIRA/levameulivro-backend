@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Book.associate = function (models) {
-    Book.hasMany(models.Exchange, {
+    Book.hasOne(models.Exchange, {
       foreignKey: "book_id",
       as: "exchanges",
     });

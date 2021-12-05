@@ -13,7 +13,7 @@ module.exports = {
     return newBook;
   },
   updateById: async (id, name, author, isbn, user_id, description) => {
-    const newBook = await db.Book.update(
+    await db.Book.update(
       {
         name,
         author,
@@ -25,17 +25,19 @@ module.exports = {
       }
     );
 
-    return newBook;
+    return { messege: "book updated" };
   },
-  readAllByUserId: async (user_id) => {
-    const books = await db.Book.findAll({ where: user_id });
+  readAll: async () => {
+    const books = await db.Book.findAll();
 
     return books;
   },
-  destroyById: async (id) => {
-    return await db.Book.destroy({
-      where: { id },
+  destroyById: async (id, user_id) => {
+    await db.Book.destroy({
+      where: { id, user_id },
     });
+
+    return { messege: "book deleted" };
   },
   destroyAllByUserId: async (user_id) => {
     await db.Book.destroy({

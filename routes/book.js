@@ -4,8 +4,8 @@ const booksController = require("../controllers/booksController");
 const authorization = require("../middlewares/authorization");
 
 router.post("/", authorization, booksController.create);
-router.get("/", authorization, booksController.read);
-router.put("/", authorization, booksController.update);
-router.delete("/", authorization, booksController.destroy);
+router.get("/", booksController.readAll);
+router.put("/:id", authorization, booksController.updateById);
+router.delete("/:id", authorization, booksController.destroyById);
 
 module.exports = router;
