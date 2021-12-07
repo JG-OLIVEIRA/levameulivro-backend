@@ -1,4 +1,5 @@
 const exchangesService = require("../service/exchangesService");
+const usersService = require("../service/usersService");
 
 module.exports = {
   create: async (req, res) => {
@@ -19,7 +20,15 @@ module.exports = {
 
     const { id } = req.params;
 
-    const exchange = await exchangesService.setStatus(id, user_id);
+    await exchangesService.setStatus(id, user_id);
+
+    const exchange = await exchangesService.getExchange(id);
+
+    const user_owner_id = exchange.books.users.id;
+
+    await usersService.depositCredit(user_owner_id);
+
+    await usersService.addCompletedExchange(user_owner_id);
 
     return res.status(200).send(exchange);
   },

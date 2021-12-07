@@ -27,9 +27,10 @@ module.exports = {
     return infoExchange;
   },
   setStatus: async (id, user_id) => {
-    await db.Exchange.update({ completed: true }, { where: { id, user_id } });
-
-    return { messege: "exchange conclueded" };
+    return await db.Exchange.update(
+      { completed: true },
+      { where: { id, user_id } }
+    );
   },
   getExchange: async (id) => {
     const exchange = await db.Exchange.findByPk(id, {
@@ -43,6 +44,11 @@ module.exports = {
         model: db.Book,
         as: "books",
         attributes: ["name", "author", "isbn", "description"],
+        include: {
+          model: db.User,
+          as: "users",
+          attributes: ["id"],
+        },
       },
     });
 

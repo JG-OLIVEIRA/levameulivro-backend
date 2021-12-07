@@ -2,6 +2,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const db = require("../database/models");
+const { where } = require("sequelize/dist");
 
 module.exports = {
   create: async (
@@ -21,7 +22,7 @@ module.exports = {
       avatar: avatar,
       birthDate: birthDate,
       zipCode: zipCode,
-      completeExchanges: 0,
+      completedExchanges: 0,
       credit: 0,
     });
 
@@ -112,5 +113,28 @@ module.exports = {
       attributes: [],
       include: "books",
     });
+  },
+  depositCredit: async (id) => {
+    const user = await db.User.findOne({
+      where: { id },
+    });
+
+    const currentCredit = user.credit + 1;
+
+    return await db.User.update({ credit: currentCredit }, { where: { id } });
+  },
+  addCompletedExchange: async (id) => {
+    const user = await db.User.findOne({
+      where: { id },
+    });
+
+    const currentCompletedExchanges = user.completedExchanges + 1;
+
+    return await db.User.update(
+      {
+        completedExchanges: currentCompletedExchanges,
+      },
+      { where: { id } }
+    );
   },
 };

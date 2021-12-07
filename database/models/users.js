@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      completeExchanges: {
+      completedExchanges: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

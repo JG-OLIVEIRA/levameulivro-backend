@@ -35,7 +35,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      completeExchanges: {
+      completedExchanges: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
