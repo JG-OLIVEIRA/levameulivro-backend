@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
       if (err) {
         return res
           .status(401)
-          .send({ messege: "Sessão expirada, por favor logue novamente" });
+          .send({ messege: "sessão expirada, tente novamente" });
       }
       return decoded;
     }

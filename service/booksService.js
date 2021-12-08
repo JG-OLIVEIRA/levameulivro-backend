@@ -51,10 +51,9 @@ module.exports = {
       include: {
         model: db.User,
         as: "users",
-        attributes: ["firstName", "completeExchanges", "zipCode"],
+        attributes: ["firstName", "completedExchanges", "zipCode"],
       },
     });
-
     return { count: count, books: rows };
   },
   destroyById: async (id, user_id) => {
@@ -62,13 +61,13 @@ module.exports = {
       where: { id, user_id },
     });
 
-    return { messege: "book deleted" };
+    return { messege: "livro deletado" };
   },
   destroyAllByUserId: async (user_id) => {
     await db.Book.destroy({
       where: { user_id },
     });
 
-    return { messege: "all books deleted" };
+    return { messege: "todos os livros deletados" };
   },
 };

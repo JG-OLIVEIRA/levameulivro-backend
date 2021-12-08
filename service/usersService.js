@@ -2,7 +2,6 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const db = require("../database/models");
-const { where } = require("sequelize/dist");
 
 module.exports = {
   create: async (
@@ -64,7 +63,7 @@ module.exports = {
       }
     );
 
-    return { messege: "user updated" };
+    return { messege: "dados atualizados" };
   },
   read: async (email, password) => {
     const user = await db.User.findOne({
@@ -88,14 +87,14 @@ module.exports = {
       };
     }
 
-    return { error: "incorrect password" };
+    return { error: "senha incorreta" };
   },
   destroy: async (id) => {
     await db.User.destroy({
       where: { id },
     });
 
-    return { messege: "user deleted" };
+    return { messege: "usuario deletado" };
   },
   find: async (email) => {
     const user = await db.User.findOne({
