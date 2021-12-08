@@ -19,6 +19,7 @@ router.post(
       .withMessage("o nome do autor precisa ter pelo menos 3 cacteres"),
     body("isbn")
       .isNumeric()
+      .not()
       .isEmpty()
       .withMessage("o código ISBN precisa ser válido"),
     body("description")

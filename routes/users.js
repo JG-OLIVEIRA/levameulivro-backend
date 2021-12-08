@@ -10,13 +10,21 @@ router.get("/books", authorization, usersController.getAllBooks);
 router.post(
   "/",
   [
-    body("firstName").isLength({ min: 3 }),
-    body("lastName").isLength({ min: 3 }),
-    body("email").isEmail().isEmpty().withMessage("o email precisa ser válido"),
+    body("firstName").not().isEmpty().isLength({ min: 3 }),
+    body("lastName").not().isEmpty().isLength({ min: 3 }),
+    body("email")
+      .isEmail()
+      .not()
+      .isEmpty()
+      .withMessage("o email precisa ser válido"),
     body("password")
       .isLength({ min: 8 })
       .withMessage("a senha precisa ter no mínimo 8 caracteres"),
-    body("birthDate").isDate().isEmpty().withMessage("digite uma data válida"),
+    body("birthDate")
+      .isDate()
+      .not()
+      .isEmpty()
+      .withMessage("digite uma data válida"),
     body("zipCode").isNumeric().isLength({ min: 8 }),
   ],
   validator,
