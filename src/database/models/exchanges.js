@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      accepted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
       completed: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -31,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "exchanges",
+      timestamps: true,
     }
   );
 

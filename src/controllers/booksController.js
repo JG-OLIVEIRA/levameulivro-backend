@@ -1,4 +1,5 @@
 const booksService = require("../service/booksService");
+const getBookCoverByISBN = require("../utils/apis/getBookCoverByISBN");
 
 module.exports = {
   create: async (req, res) => {
@@ -8,10 +9,13 @@ module.exports = {
 
     const user_id = decoded.id;
 
+    const thumbnail_url = getBookCoverByISBN(isbn);
+
     const newBook = await booksService.create(
       name,
       author,
       isbn,
+      thumbnail_url,
       user_id,
       description
     );

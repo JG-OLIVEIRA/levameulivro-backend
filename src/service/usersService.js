@@ -97,7 +97,32 @@ module.exports = {
   findAllBooksByUserId: async (id) => {
     return await db.User.findByPk(id, {
       attributes: [],
-      include: "books",
+      include: {
+        model: db.Book,
+        as: "books",
+        attributes: [
+          "id",
+          "name",
+          "author",
+          "isbn",
+          "thumbnail_url",
+          "createdAt",
+          "updatedAt",
+        ],
+        include: {
+          model: db.Exchange,
+          as: "exchanges",
+          attributes: [
+            "id",
+            "user_id",
+            "book_id",
+            "accepted",
+            "completed",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
+      },
     });
   },
   findAllExchangesByUserId: async (id) => {

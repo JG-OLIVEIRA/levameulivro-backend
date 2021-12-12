@@ -2,11 +2,12 @@ const db = require("../database/models");
 const { Op } = require("sequelize");
 
 module.exports = {
-  create: async (name, author, isbn, user_id, description) => {
+  create: async (name, author, isbn, thumbnail_url, user_id, description) => {
     return await db.Book.create({
       name,
       author,
       isbn,
+      thumbnail_url,
       user_id,
       description,
     });
@@ -39,11 +40,25 @@ module.exports = {
           { isbn: { [Op.startsWith]: isbn } },
         ],
       },
-      attributes: ["id", "name", "author", "createdAt", "updatedAt"],
+      attributes: [
+        "id",
+        "name",
+        "author",
+        "isbn",
+        "thumbnail_url",
+        "createdAt",
+        "updatedAt",
+      ],
       include: {
         model: db.User,
         as: "users",
-        attributes: ["firstName", "completedExchanges", "zipCode"],
+        attributes: [
+          "firstName",
+          "lastName",
+          "avatar",
+          "completedExchanges",
+          "zipCode",
+        ],
       },
     });
     return { count: count, books: rows };

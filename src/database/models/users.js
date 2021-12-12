@@ -57,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "users",
+      timestamps: true,
     }
   );
 

@@ -29,6 +29,21 @@ module.exports = {
 
     return res.status(200).send({ messege: "Entrega concluída" });
   },
+  setRequestById: async (req, res) => {
+    const { id } = req.params;
+    const decoded = req.headers.authorization.id;
+    const { book } = await exchangesService.findById(id);
+
+    if (book.users === decoded) {
+      await exchangesService.setRequestById(id);
+
+      return res.status(200).send({ messege: "Pedido aceito" });
+    }
+
+    return res
+      .status(401)
+      .send({ messege: "Usuário não autorizado a aceitar o pedido" });
+  },
   getById: async (req, res) => {
     const { id } = req.params;
 

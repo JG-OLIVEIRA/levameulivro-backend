@@ -25,6 +25,10 @@ module.exports = {
           key: "id",
         },
       },
+      accepted: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       completed: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
