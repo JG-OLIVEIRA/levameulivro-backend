@@ -7,6 +7,12 @@ module.exports = {
     const { firstName, lastName, email, password, avatar, birthDate, zipCode } =
       req.body;
 
+    const wasFound = await usersService.wasFoundByEmail(email);
+
+    if (wasFound) {
+      return res.status(401).send({ messege: "A conta já existe" });
+    }
+
     const newUser = await usersService.create(
       firstName,
       lastName,
