@@ -1,68 +1,35 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const booksController = require("../controllers/booksController");
 const authorization = require("../middlewares/authorization");
-const { body } = require("express-validator");
 const validator = require("../middlewares/validator");
+const {
+  configUpdate,
+  configCreate,
+} = require("../utils/config/middlewares/bookValidator");
 
-router.get("/", booksController.readAll);
-router.get("/search", booksController.getByNameOrAuthorOrISBN);
-router.get("/:id", booksController.getById);
+// authorization routers
+
 router.post(
   "/",
-  [
-    body("name")
-      .not()
-      .isEmpty()
-      .isLength({ min: 3 })
-      .withMessage("o nome do livro precisa ter pelo menos 3 cacteres"),
-    body("author")
-      .not()
-      .isEmpty()
-      .isLength({ min: 3 })
-      .withMessage("o nome do autor precisa ter pelo menos 3 cacteres"),
-    body("isbn")
-      .isNumeric()
-      .not()
-      .isEmpty()
-      .withMessage("o código ISBN precisa ser válido"),
-    body("description")
-      .not()
-      .isEmpty()
-      .isLength({ min: 15 })
-      .withMessage("a descrição do livro precisa ter pelo menos 15 caracteres"),
-  ],
+  configCreate,
   validator,
   authorization,
   booksController.create
 );
 router.put(
   "/:id",
-  [
-    body("name")
-      .not()
-      .isEmpty()
-      .isLength({ min: 3 })
-      .withMessage("o nome do livro precisa ter pelo menos 3 cacteres"),
-    body("author")
-      .not()
-      .isEmpty()
-      .isLength({ min: 3 })
-      .withMessage("o nome do autor precisa ter pelo menos 3 cacteres"),
-    body("isbn")
-      .isNumeric()
-      .not()
-      .isEmpty()
-      .withMessage("o código ISBN precisa ser válido"),
-    body("description")
-      .not()
-      .isEmpty()
-      .isLength({ min: 15 })
-      .withMessage("a descrição do livro precisa ter pelo menos 15 caracteres"),
-  ],
+  configUpdate,
+  validator,
   authorization,
-  booksController.updateById
+  booksController.updateByUserId
 );
-router.delete("/:id", authorization, booksController.destroyById);
+router.delete("/:id", authorization, booksController.deleteByUserId);
+router.delete("/", authorization, booksController.deleteAllByUserId);
+
+// public routers
+
+router.get("/", booksController.getAll);
+router.get("/search", booksController.getByNameOrAuthorOrISBN);
+router.get("/:id", booksController.getById);
 
 module.exports = router;

@@ -1,10 +1,15 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const exchangesController = require("../controllers/exchangesController");
 const authorization = require("../middlewares/authorization");
 
-router.get("/:id", exchangesController.getExchange);
-router.post("/", authorization, exchangesController.create);
-router.put("/:id", authorization, exchangesController.setStatus);
+// authorization routers
+router.post("/books/:id", authorization, exchangesController.create);
+router.put("/:id/setstatus", authorization, exchangesController.setStatusById);
+router.delete("/:id", authorization, exchangesController.deleteById);
+
+// public routers
+
+router.get("/:id", exchangesController.getById);
+router.get("/", exchangesController.getAll);
 
 module.exports = router;

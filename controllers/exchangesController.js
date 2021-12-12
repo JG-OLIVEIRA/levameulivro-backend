@@ -3,40 +3,49 @@ const usersService = require("../service/usersService");
 
 module.exports = {
   create: async (req, res) => {
-    const decoded = req.headers.authorization;
+    const book_id = req.params.id;
+    const user_id = req.headers.authorization.id;
 
-    const user_id = decoded.id;
+    await exchangesService.create(user_id, book_id);
 
-    const { book_id } = req.body;
-
-    const newExchange = await exchangesService.create(user_id, book_id);
-
-    return res.status(200).send(newExchange);
+    return res.status(200).send({ messege: "Pedido realizado" });
   },
-  setStatus: async (req, res) => {
-    const decoded = req.headers.authorization;
+  setStatusById: async (req, res) => {
+    const decoded = req.headers.authorization.id;
+    const { id } = req.params;
+    const { user_id, book } = await exchangesService.findById(id);
 
-    const user_id = decoded.id;
+    if (user_id !== decoded || book.users === decoded) {
+      return res
+        .status(401)
+        .send({ messege: "Usuário não autorizado a finalizar essa entrega" });
+    }
 
+    await exchangesService.setStatusById(id);
+
+    await usersService.depositCreditById(user_id);
+
+    await usersService.addCompletedExchangeById(user_id);
+
+    return res.status(200).send({ messege: "Entrega concluída" });
+  },
+  getById: async (req, res) => {
     const { id } = req.params;
 
-    await exchangesService.setStatus(id, user_id);
-
-    const exchange = await exchangesService.getExchange(id);
-
-    const user_owner_id = exchange.books.users.id;
-
-    await usersService.depositCredit(user_owner_id);
-
-    await usersService.addCompletedExchange(user_owner_id);
+    const exchange = await exchangesService.findById(id);
 
     return res.status(200).send(exchange);
   },
-  getExchange: async (req, res) => {
+  getAll: async (req, res) => {
+    const exchanges = await exchangesService.findAll();
+
+    return res.status(200).send(exchanges);
+  },
+  deleteById: async (req, res) => {
     const { id } = req.params;
 
-    const exchange = await exchangesService.getExchange(id);
+    await exchangesService.destroyById(id);
 
-    return res.status(200).send(exchange);
+    return res.status(200).send({ messege: "Pedido deletado" });
   },
 };

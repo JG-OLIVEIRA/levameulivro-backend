@@ -2,56 +2,76 @@ const db = require("../database/models");
 
 module.exports = {
   create: async (user_id, book_id) => {
-    const newExchange = await db.Exchange.create({
+    return await db.Exchange.create({
       user_id: user_id,
       book_id: book_id,
       completed: false,
     });
-
-    const { id } = newExchange;
-
-    const infoExchange = await db.Exchange.findByPk(id, {
-      attributes: ["id", "completed", "createdAt", "updatedAt"],
-      include: {
-        model: db.User,
-        as: "users",
-        attributes: ["firstName", "lastName", "email"],
-      },
+  },
+  setStatusById: async (id) => {
+    return await db.Exchange.update({ completed: true }, { where: { id } });
+  },
+  findById: async (id) => {
+    return await db.Exchange.findByPk(id, {
+      attributes: [
+        "id",
+        "user_id",
+        "book_id",
+        "completed",
+        "createdAt",
+        "updatedAt",
+      ],
       include: {
         model: db.Book,
         as: "books",
-        attributes: ["name", "author", "isbn", "description"],
-      },
-    });
-
-    return infoExchange;
-  },
-  setStatus: async (id, user_id) => {
-    return await db.Exchange.update(
-      { completed: true },
-      { where: { id, user_id } }
-    );
-  },
-  getExchange: async (id) => {
-    const exchange = await db.Exchange.findByPk(id, {
-      attributes: ["id", "completed", "createdAt", "updatedAt"],
-      include: {
-        model: db.User,
-        as: "users",
-        attributes: ["firstName", "lastName", "email"],
-      },
-      include: {
-        model: db.Book,
-        as: "books",
-        attributes: ["name", "author", "isbn", "description"],
+        attributes: ["id", "name", "author", "createdAt", "updatedAt"],
         include: {
           model: db.User,
           as: "users",
-          attributes: ["id"],
+          attributes: [
+            "id",
+            "firstName",
+            "lastName",
+            "email",
+            "avatar",
+            "birthDate",
+            "zipCode",
+          ],
         },
       },
     });
-
-    return exchange;
+  },
+  destroyById: async (id) => {
+    return await db.Exchange.destroy({ where: { id } });
+  },
+  findAll: async () => {
+    return await db.Exchange.findAll({
+      attributes: [
+        "id",
+        "user_id",
+        "book_id",
+        "completed",
+        "createdAt",
+        "updatedAt",
+      ],
+      include: {
+        model: db.Book,
+        as: "books",
+        attributes: ["id", "name", "author", "createdAt", "updatedAt"],
+        include: {
+          model: db.User,
+          as: "users",
+          attributes: [
+            "id",
+            "firstName",
+            "lastName",
+            "email",
+            "avatar",
+            "birthDate",
+            "zipCode",
+          ],
+        },
+      },
+    });
   },
 };

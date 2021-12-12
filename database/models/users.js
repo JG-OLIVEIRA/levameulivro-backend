@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -55,6 +57,11 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "users",
     }
   );
+
+  User.beforeCreate(async (user, options) => {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+  });
 
   User.associate = function (models) {
     User.hasMany(models.Book, {

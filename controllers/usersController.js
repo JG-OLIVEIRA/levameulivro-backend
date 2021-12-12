@@ -1,16 +1,11 @@
-const booksService = require("../service/booksService");
 const usersService = require("../service/usersService");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
-  create: async (req, res) => {
+  createAccount: async (req, res) => {
     const { firstName, lastName, email, password, avatar, birthDate, zipCode } =
       req.body;
-
-    const found = await usersService.find(email);
-
-    if (found) {
-      return res.status(401).send({ messege: "user already exist" });
-    }
 
     const newUser = await usersService.create(
       firstName,
@@ -22,28 +17,54 @@ module.exports = {
       zipCode
     );
 
-    return res.status(200).send(newUser);
-  },
-  read: async (req, res) => {
-    const { email, password } = req.body;
-
-    const found = await usersService.find(email);
-
-    if (!found) {
-      return res.status(401).send({ messege: "user is not exist" });
-    }
-
-    const userSession = await usersService.read(email, password);
-
-    const { error } = userSession;
-
-    if (error) {
-      return res.status(401).send(userSession);
-    }
+    const userSession = {
+      token: jwt.sign(
+        {
+          id: newUser.id,
+        },
+        process.env.JWT_KEY,
+        {
+          expiresIn: "6h",
+        }
+      ),
+      avatar: newUser.avatar,
+    };
 
     return res.status(200).send(userSession);
   },
-  update: async (req, res) => {
+  initSession: async (req, res) => {
+    const { email, password } = req.body;
+
+    const wasFound = await usersService.wasFoundByEmail(email);
+
+    if (!wasFound) {
+      return res.status(401).send({ messege: "Conta não encontrada" });
+    }
+
+    const user = await usersService.findByEmail(email);
+
+    const isEqual = await bcrypt.compare(password, user.password);
+
+    if (!isEqual) {
+      return res.status(401).send({ error: "Senha incorreta" });
+    }
+
+    const userSession = {
+      token: jwt.sign(
+        {
+          id: user.id,
+        },
+        process.env.JWT_KEY,
+        {
+          expiresIn: "6h",
+        }
+      ),
+      avatar: user.avatar,
+    };
+
+    return res.status(200).send(userSession);
+  },
+  updateAccount: async (req, res) => {
     const { firstName, lastName, email, password, avatar, birthDate, zipCode } =
       req.body;
 
@@ -51,7 +72,7 @@ module.exports = {
 
     const { id } = decoded;
 
-    const user = await usersService.update(
+    await usersService.updateById(
       id,
       firstName,
       lastName,
@@ -62,26 +83,45 @@ module.exports = {
       zipCode
     );
 
-    return res.status(200).send(user);
+    return res.status(200).send({ messege: "Dados atualizados" });
   },
-  destroy: async (req, res) => {
+  deleteAccount: async (req, res) => {
     const decoded = req.headers.authorization;
 
     const { id } = decoded;
 
-    await booksService.destroyAllByUserId(id);
+    await usersService.destroyById(id);
 
-    const user = await usersService.destroy(id);
+    return res.status(200).send({ messege: "Conta deletada" });
+  },
+  getAll: async (req, res) => {
+    const users = await usersService.findAll();
+
+    return res.status(200).send(users);
+  },
+  getById: async (req, res) => {
+    const { id } = req.params;
+
+    const user = await usersService.findById(id);
 
     return res.status(200).send(user);
   },
-  getAllBooks: async (req, res) => {
+  getMyBooks: async (req, res) => {
     const decoded = req.headers.authorization;
 
     const { id } = decoded;
 
-    const books = await usersService.getAllBooks(id);
+    const myBooks = await usersService.findAllBooksByUserId(id);
 
-    return res.status(200).send(books);
+    return res.status(200).send(myBooks);
+  },
+  getMyExchanges: async (req, res) => {
+    const decoded = req.headers.authorization;
+
+    const { id } = decoded;
+
+    const myExchanges = await usersService.findAllExchangesByUserId(id);
+
+    return res.status(200).send(myExchanges);
   },
 };

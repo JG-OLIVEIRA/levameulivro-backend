@@ -1,6 +1,3 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const db = require("../database/models");
 
 module.exports = {
@@ -13,32 +10,19 @@ module.exports = {
     birthDate,
     zipCode
   ) => {
-    const newUser = await db.User.create({
+    return await db.User.create({
       firstName: firstName,
       lastName: lastName,
       email: email,
-      password: await bcrypt.hash(password, 10),
+      password: password,
       avatar: avatar,
       birthDate: birthDate,
       zipCode: zipCode,
       completedExchanges: 0,
-      credit: 0,
+      credit: 1,
     });
-
-    return {
-      token: jwt.sign(
-        {
-          id: newUser.id,
-        },
-        process.env.JWT_KEY,
-        {
-          expiresIn: "6h",
-        }
-      ),
-      avatar: newUser.avatar,
-    };
   },
-  update: async (
+  updateById: async (
     id,
     firstName,
     lastName,
@@ -48,7 +32,7 @@ module.exports = {
     birthDate,
     zipCode
   ) => {
-    await db.User.update(
+    return await db.User.update(
       {
         firstName: firstName,
         lastName: lastName,
@@ -62,41 +46,18 @@ module.exports = {
         where: { id },
       }
     );
-
-    return { messege: "dados atualizados" };
   },
-  read: async (email, password) => {
-    const user = await db.User.findOne({
+  findByEmail: async (email) => {
+    return await db.User.findOne({
       where: { email },
     });
-
-    const isEqual = await bcrypt.compare(password, user.password);
-
-    if (isEqual) {
-      return {
-        token: jwt.sign(
-          {
-            id: user.id,
-          },
-          process.env.JWT_KEY,
-          {
-            expiresIn: "6h",
-          }
-        ),
-        avatar: user.avatar,
-      };
-    }
-
-    return { error: "senha incorreta" };
   },
-  destroy: async (id) => {
-    await db.User.destroy({
+  destroyById: async (id) => {
+    return await db.User.destroy({
       where: { id },
     });
-
-    return { messege: "usuario deletado" };
   },
-  find: async (email) => {
+  wasFoundByEmail: async (email) => {
     const user = await db.User.findOne({
       where: { email },
     });
@@ -107,13 +68,45 @@ module.exports = {
 
     return false;
   },
-  getAllBooks: async (id) => {
+  findAll: async () => {
+    return await db.User.findAll({
+      attributes: [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "avatar",
+        "birthDate",
+        "zipCode",
+      ],
+    });
+  },
+  findById: async (id) => {
+    return await db.User.findByPk(id, {
+      attributes: [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "avatar",
+        "birthDate",
+        "zipCode",
+      ],
+    });
+  },
+  findAllBooksByUserId: async (id) => {
     return await db.User.findByPk(id, {
       attributes: [],
       include: "books",
     });
   },
-  depositCredit: async (id) => {
+  findAllExchangesByUserId: async (id) => {
+    return await db.User.findByPk(id, {
+      attributes: [],
+      include: "exchanges",
+    });
+  },
+  depositCreditById: async (id) => {
     const user = await db.User.findOne({
       where: { id },
     });
@@ -122,7 +115,7 @@ module.exports = {
 
     return await db.User.update({ credit: currentCredit }, { where: { id } });
   },
-  addCompletedExchange: async (id) => {
+  addCompletedExchangeById: async (id) => {
     const user = await db.User.findOne({
       where: { id },
     });

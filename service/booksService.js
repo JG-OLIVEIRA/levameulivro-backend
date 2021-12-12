@@ -3,18 +3,16 @@ const { Op } = require("sequelize");
 
 module.exports = {
   create: async (name, author, isbn, user_id, description) => {
-    const newBook = await db.Book.create({
+    return await db.Book.create({
       name,
       author,
       isbn,
       user_id,
       description,
     });
-
-    return newBook;
   },
-  updateById: async (id, name, author, isbn, user_id, description) => {
-    await db.Book.update(
+  updateByUserId: async (id, name, author, isbn, user_id, description) => {
+    return await db.Book.update(
       {
         name,
         author,
@@ -25,20 +23,14 @@ module.exports = {
         where: { id, user_id },
       }
     );
-
-    return { messege: "book updated" };
   },
-  readAll: async () => {
-    const books = await db.Book.findAll();
-
-    return books;
+  findAll: async () => {
+    return await db.Book.findAll();
   },
-  getById: async (id) => {
-    const book = await db.Book.findByPk(id);
-
-    return book;
+  findById: async (id) => {
+    return await db.Book.findByPk(id);
   },
-  getByNameOrAuthorOrISBN: async (name, author, isbn) => {
+  findByNameOrAuthorOrISBN: async (name, author, isbn) => {
     const { count, rows } = await db.Book.findAndCountAll({
       where: {
         [Op.or]: [
@@ -47,7 +39,7 @@ module.exports = {
           { isbn: { [Op.startsWith]: isbn } },
         ],
       },
-      attributes: ["id", "name", "author"],
+      attributes: ["id", "name", "author", "createdAt", "updatedAt"],
       include: {
         model: db.User,
         as: "users",
@@ -56,18 +48,14 @@ module.exports = {
     });
     return { count: count, books: rows };
   },
-  destroyById: async (id, user_id) => {
+  destroyByUserId: async (id, user_id) => {
     await db.Book.destroy({
       where: { id, user_id },
     });
-
-    return { messege: "livro deletado" };
   },
   destroyAllByUserId: async (user_id) => {
-    await db.Book.destroy({
+    return await db.Book.destroy({
       where: { user_id },
     });
-
-    return { messege: "todos os livros deletados" };
   },
 };
