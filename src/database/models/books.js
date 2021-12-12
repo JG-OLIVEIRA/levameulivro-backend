@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
@@ -18,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
       isbn: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      thumbnail_url: {
+        type: DataTypes.STRING,
       },
       user_id: {
         type: DataTypes.INTEGER,

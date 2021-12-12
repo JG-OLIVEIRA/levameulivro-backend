@@ -5,6 +5,7 @@ module.exports = {
     await queryInterface.createTable("books", {
       id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
@@ -19,6 +20,9 @@ module.exports = {
       isbn: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      thumbnail_url: {
+        type: Sequelize.STRING,
       },
       user_id: {
         type: Sequelize.INTEGER,
