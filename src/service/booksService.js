@@ -29,7 +29,19 @@ module.exports = {
     return await db.Book.findAll();
   },
   findById: async (id) => {
-    return await db.Book.findByPk(id);
+    return await db.Book.findByPk(id, {
+      include: {
+        model: db.User,
+        as: "users",
+        attributes: [
+          "firstName",
+          "lastName",
+          "avatar",
+          "completedExchanges",
+          "zipCode",
+        ],
+      },
+    });
   },
   findByNameOrAuthorOrISBN: async (name, author, isbn) => {
     const { count, rows } = await db.Book.findAndCountAll({

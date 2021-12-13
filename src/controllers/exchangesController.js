@@ -6,6 +6,14 @@ module.exports = {
     const book_id = req.params.id;
     const user_id = req.headers.authorization.id;
 
+    const { credit } = await usersService.findById(user_id);
+
+    if (credit === 0) {
+      return res
+        .status(401)
+        .send({ messege: "Você está sem creditos para fazer um pedido" });
+    }
+
     await exchangesService.create(user_id, book_id);
 
     return res.status(200).send({ messege: "Pedido realizado" });
@@ -13,9 +21,9 @@ module.exports = {
   setStatusById: async (req, res) => {
     const decoded = req.headers.authorization.id;
     const { id } = req.params;
-    const { user_id, book } = await exchangesService.findById(id);
+    const { user_id, books } = await exchangesService.findById(id);
 
-    if (user_id !== decoded || book.users === decoded) {
+    if (user_id !== decoded || books.users.dataValues.id === decoded) {
       return res
         .status(401)
         .send({ messege: "Usuário não autorizado a finalizar essa entrega" });
@@ -23,18 +31,20 @@ module.exports = {
 
     await exchangesService.setStatusById(id);
 
-    await usersService.depositCreditById(user_id);
+    await usersService.depositCreditById(books.users.dataValues.id);
 
-    await usersService.addCompletedExchangeById(user_id);
+    await usersService.addCompletedExchangeById(books.users.dataValues.id);
+
+    await usersService.subtractCreditById(decoded);
 
     return res.status(200).send({ messege: "Entrega concluída" });
   },
   setRequestById: async (req, res) => {
     const { id } = req.params;
+    const { books } = await exchangesService.findById(id);
     const decoded = req.headers.authorization.id;
-    const { book } = await exchangesService.findById(id);
 
-    if (book.users === decoded) {
+    if (books.users.dataValues.id === decoded) {
       await exchangesService.setRequestById(id);
 
       return res.status(200).send({ messege: "Pedido aceito" });

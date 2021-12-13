@@ -91,6 +91,8 @@ module.exports = {
         "avatar",
         "birthDate",
         "zipCode",
+        "completedExchanges",
+        "credit",
       ],
     });
   },
@@ -137,6 +139,15 @@ module.exports = {
     });
 
     const currentCredit = user.credit + 1;
+
+    return await db.User.update({ credit: currentCredit }, { where: { id } });
+  },
+  subtractCreditById: async (id) => {
+    const user = await db.User.findOne({
+      where: { id },
+    });
+
+    const currentCredit = user.credit - 1;
 
     return await db.User.update({ credit: currentCredit }, { where: { id } });
   },

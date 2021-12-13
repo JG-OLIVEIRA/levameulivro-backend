@@ -9,7 +9,9 @@ module.exports = {
 
     const user_id = decoded.id;
 
-    const thumbnail_url = getBookCoverByISBN(isbn);
+    const thumbnail_url = await getBookCoverByISBN(isbn);
+
+    console.log(thumbnail_url);
 
     const newBook = await booksService.create(
       name,
