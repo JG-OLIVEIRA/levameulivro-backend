@@ -10,7 +10,9 @@ module.exports = {
     const wasFound = await usersService.wasFoundByEmail(email);
 
     if (wasFound) {
-      return res.status(401).send({ messege: "A conta já existe" });
+      return res
+        .status(401)
+        .send({ status: 401, messege: "A conta já existe" });
     }
 
     const newUser = await usersService.create(
@@ -24,6 +26,7 @@ module.exports = {
     );
 
     const userSession = {
+      status: 200,
       token: jwt.sign(
         {
           id: newUser.id,
@@ -44,7 +47,9 @@ module.exports = {
     const wasFound = await usersService.wasFoundByEmail(email);
 
     if (!wasFound) {
-      return res.status(401).send({ messege: "Conta não encontrada" });
+      return res
+        .status(401)
+        .send({ staus: 401, messege: "Conta não encontrada" });
     }
 
     const user = await usersService.findByEmail(email);
@@ -52,10 +57,11 @@ module.exports = {
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
-      return res.status(401).send({ error: "Senha incorreta" });
+      return res.status(401).send({ status: 401, error: "Senha incorreta" });
     }
 
     const userSession = {
+      status: 200,
       token: jwt.sign(
         {
           id: user.id,
@@ -89,7 +95,7 @@ module.exports = {
       zipCode
     );
 
-    return res.status(200).send({ messege: "Dados atualizados" });
+    return res.status(200).send({ status: 200, messege: "Dados atualizados" });
   },
   deleteAccount: async (req, res) => {
     const decoded = req.headers.authorization;
@@ -98,19 +104,19 @@ module.exports = {
 
     await usersService.destroyById(id);
 
-    return res.status(200).send({ messege: "Conta deletada" });
+    return res.status(200).send({ status: 200, messege: "Conta deletada" });
   },
   getAll: async (req, res) => {
     const users = await usersService.findAll();
 
-    return res.status(200).send(users);
+    return res.status(200).send({ status: 200, users: users });
   },
   getById: async (req, res) => {
     const { id } = req.params;
 
     const user = await usersService.findById(id);
 
-    return res.status(200).send(user);
+    return res.status(200).send({ status: 200, user: user });
   },
   getMyBooks: async (req, res) => {
     const decoded = req.headers.authorization;
@@ -119,7 +125,7 @@ module.exports = {
 
     const myBooks = await usersService.findAllBooksByUserId(id);
 
-    return res.status(200).send(myBooks);
+    return res.status(200).send({ status: 200, your_books: myBooks });
   },
   getMyExchanges: async (req, res) => {
     const decoded = req.headers.authorization;
@@ -128,6 +134,6 @@ module.exports = {
 
     const myExchanges = await usersService.findAllExchangesByUserId(id);
 
-    return res.status(200).send(myExchanges);
+    return res.status(200).send({ status: 200, your_requests: myExchanges });
   },
 };

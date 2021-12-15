@@ -46,8 +46,14 @@ module.exports = {
       },
     });
   },
-  destroyById: async (id) => {
-    return await db.Exchange.destroy({ where: { id } });
+  findByUserAndBookId: async (user_id, book_id) => {
+    const exchange = await db.Exchange.findOne({ where: { user_id, book_id } });
+
+    if (exchange) {
+      return true;
+    }
+
+    return false;
   },
   findAll: async () => {
     return await db.Exchange.findAll({
@@ -79,5 +85,8 @@ module.exports = {
         },
       },
     });
+  },
+  destroyById: async (id) => {
+    return await db.Exchange.destroy({ where: { id } });
   },
 };

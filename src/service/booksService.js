@@ -37,8 +37,9 @@ module.exports = {
           "firstName",
           "lastName",
           "avatar",
-          "completedExchanges",
           "zipCode",
+          "completedExchanges",
+          "credit",
         ],
       },
     });
@@ -68,8 +69,9 @@ module.exports = {
           "firstName",
           "lastName",
           "avatar",
-          "completedExchanges",
           "zipCode",
+          "completedExchanges",
+          "credit",
         ],
       },
     });

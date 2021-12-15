@@ -11,8 +11,6 @@ module.exports = {
 
     const thumbnail_url = await getBookCoverByISBN(isbn);
 
-    console.log(thumbnail_url);
-
     const newBook = await booksService.create(
       name,
       author,
@@ -65,7 +63,7 @@ module.exports = {
       isbn
     );
 
-    return res.status(200).send(booksAndCount);
+    return res.status(200).send({ status: 200, booksAndCount });
   },
   deleteByUserId: async (req, res) => {
     const decoded = req.headers.authorization;
