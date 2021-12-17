@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = async (sequelize, DataTypes) => {
   const Book = sequelize.define(
     "Book",
     {
@@ -45,6 +45,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
+
+  await Book.sync();
 
   Book.associate = function (models) {
     Book.hasOne(models.Exchange, {

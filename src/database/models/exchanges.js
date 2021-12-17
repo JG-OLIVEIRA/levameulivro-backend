@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = async (sequelize, DataTypes) => {
   const Exchange = sequelize.define(
     "Exchange",
     {
@@ -38,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
+
+  await Exchange.sync();
 
   Exchange.associate = function (models) {
     Exchange.belongsTo(models.Book, {
