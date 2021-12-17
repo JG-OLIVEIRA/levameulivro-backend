@@ -8,17 +8,14 @@ const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.js")[env];
 const db = {};
 
-let sequelize;
-if (process.env.DATABASE_URL) {
-  const sequelize = new Sequelize(
-    process.env.DATABASE_NAME,
-    process.env.DATABASE_USERNAME,
-    process.env.DATABASE_PASSWORD,
-    {
-      dialect: "postgres",
-      host: process.env.DATABASE_URL,
-    }
-  );
+
+  const sequelize = new Sequelize(process.env.DATABASE_URI, {
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false
+        },
+    },
+});
 
   sequelize
     .authenticate()
@@ -28,14 +25,7 @@ if (process.env.DATABASE_URL) {
     .catch((err) => {
       console.error("Unable to connect to the database:", err);
     });
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
+
 
 fs.readdirSync(__dirname)
   .filter((file) => {
