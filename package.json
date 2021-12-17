@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./src/bin/www",
+    "build":"sequelize db:migrate",
     "dev": "nodemon ./src/bin/www"
   },
   "dependencies": {
