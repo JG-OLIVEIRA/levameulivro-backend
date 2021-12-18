@@ -39,7 +39,9 @@ module.exports = async (sequelize, DataTypes) => {
     }
   );
 
-  await Exchange.sync();
+  (async () => {
+    await Exchange.sync();
+  })();
 
   Exchange.associate = function (models) {
     Exchange.belongsTo(models.Book, {

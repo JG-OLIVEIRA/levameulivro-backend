@@ -61,7 +61,9 @@ module.exports = async (sequelize, DataTypes) => {
     }
   );
 
-  await User.sync();
+  (async () => {
+    await User.sync();
+  })();
 
   User.beforeCreate(async (user, options) => {
     const hashedPassword = await bcrypt.hash(user.password, 10);

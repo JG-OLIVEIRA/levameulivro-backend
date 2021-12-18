@@ -46,7 +46,9 @@ module.exports = async (sequelize, DataTypes) => {
     }
   );
 
-  await Book.sync();
+  (async () => {
+    await Book.sync();
+  })();
 
   Book.associate = function (models) {
     Book.hasOne(models.Exchange, {
