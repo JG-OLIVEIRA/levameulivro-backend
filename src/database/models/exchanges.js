@@ -1,4 +1,4 @@
-module.exports = async (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Exchange = sequelize.define(
     "Exchange",
     {
