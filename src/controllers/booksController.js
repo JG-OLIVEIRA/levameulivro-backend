@@ -20,7 +20,7 @@ module.exports = {
       description
     );
 
-    return res.status(200).send(newBook);
+    return res.status(200).send({ status: 200, newBook });
   },
   updateByUserId: async (req, res) => {
     const { name, author, isbn, description } = req.body;
@@ -40,30 +40,30 @@ module.exports = {
       description
     );
 
-    return res.status(200).send(book);
+    return res.status(200).send({ status: 200, book });
   },
   getAll: async (req, res) => {
     const books = await booksService.findAll();
 
-    return res.status(200).send(books);
+    return res.status(200).send({ status: 200, books });
   },
   getById: async (req, res) => {
     const { id } = req.params;
 
     const book = await booksService.findById(id);
 
-    return res.status(200).send(book);
+    return res.status(200).send({ status: 200, book });
   },
   getByNameOrAuthorOrISBN: async (req, res) => {
     const { name, author, isbn } = req.query;
 
-    const booksAndCount = await booksService.findByNameOrAuthorOrISBN(
+    const { count, books } = await booksService.findByNameOrAuthorOrISBN(
       name,
       author,
       isbn
     );
 
-    return res.status(200).send({ status: 200, booksAndCount });
+    return res.status(200).send({ status: 200, count, books });
   },
   deleteByUserId: async (req, res) => {
     const decoded = req.headers.authorization;
@@ -72,7 +72,7 @@ module.exports = {
 
     await booksService.destroyByUserId(id, user_id);
 
-    return res.status(200).send({ messege: "Livro deletado" });
+    return res.status(200).send({ status: 200, messege: "Livro deletado" });
   },
   deleteAllByUserId: async (req, res) => {
     const decoded = req.headers.authorization;
@@ -80,6 +80,6 @@ module.exports = {
 
     await booksService.destroyAllByUserId(user_id);
 
-    return res.status(200).send({ messege: "Livros deletados" });
+    return res.status(200).send({ status: 200, messege: "Livros deletados" });
   },
 };
