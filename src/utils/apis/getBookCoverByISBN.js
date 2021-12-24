@@ -1,11 +1,12 @@
+require("dotenv").config();
 const axios = require("axios");
 
-const api = axios.create({ baseURL: "https://openlibrary.org/api/books" });
+const api = axios.create({
+  baseURL: "https://www.googleapis.com/books/v1/volumes",
+});
 
-module.exports = async (ISBN) => {
-  const { data } = await api.get(
-    `https://openlibrary.org/api/books?bibkeys=ISBN:${ISBN}&format=json`
-  );
+export async function getBookByISBN(ISBN) {
+  const { data } = await api.get(`?q=isbn:${ISBN}&${process.env.API_KEY}`);
 
-  return data[`ISBN:${ISBN}`]["thumbnail_url"];
-};
+  return data["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"];
+}
