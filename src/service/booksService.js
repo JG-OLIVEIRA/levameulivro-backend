@@ -25,8 +25,8 @@ module.exports = {
       }
     );
   },
-  findAll: async () => {
-    return await db.Book.findAll();
+  findAll: async (limit, offset) => {
+    return await db.Book.findAll({ limit, offset });
   },
   findById: async (id) => {
     return await db.Book.findByPk(id, {

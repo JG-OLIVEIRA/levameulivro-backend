@@ -1,4 +1,5 @@
 const booksService = require("../service/booksService");
+const getPagination = require("../service/getPagination");
 const getBookCoverByISBN = require("../utils/apis/getBookCoverByISBN");
 
 module.exports = {
@@ -43,7 +44,11 @@ module.exports = {
     return res.status(200).send({ status: 200, book });
   },
   getAll: async (req, res) => {
-    const books = await booksService.findAll();
+    const { page, size } = req.query;
+
+    const { limit, offset } = getPagination(page, size);
+
+    const books = await booksService.findAll(limit, offset);
 
     return res.status(200).send({ status: 200, books });
   },
