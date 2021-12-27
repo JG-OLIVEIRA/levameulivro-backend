@@ -1,6 +1,10 @@
-module.exports = (page, size) => {
-  const limit = size ? +size : 10;
-  const offset = page ? page * limit : 0;
+module.exports = (page, count) => {
+  let offset = 0;
 
+  if (count && page) {
+    offset = count * page - count;
+  }
+  const limit = Number(count),
+ 
   return { limit, offset };
 };
