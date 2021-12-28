@@ -2,7 +2,7 @@ module.exports = (page, limit) => {
   let offset = 0;
 
   if (count && page) {
-    offset = count * page - limit;
+    offset = limit * page - limit;
   }
 
   return { offset };
