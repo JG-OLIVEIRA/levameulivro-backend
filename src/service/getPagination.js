@@ -1,7 +1,7 @@
 module.exports = (page, limit) => {
   let offset = 0;
 
-  if (count && page) {
+  if (limit && page) {
     offset = limit * page - limit;
   }
 
