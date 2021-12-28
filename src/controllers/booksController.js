@@ -46,7 +46,7 @@ module.exports = {
   getAll: async (req, res) => {
     const { page, limit } = req.query;
 
-    const { limit, offset } = getPagination(page, limit);
+    const { offset } = getPagination(page, limit);
 
     const books = await booksService.findAll(limit, offset);
 

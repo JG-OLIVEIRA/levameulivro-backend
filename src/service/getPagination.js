@@ -1,11 +1,9 @@
-module.exports = (page, count) => {
+module.exports = (page, limit) => {
   let offset = 0;
-  let limit = 10;
 
   if (count && page) {
-    offset = count * page - count;
-    limit = Number(count);
+    offset = count * page - limit;
   }
 
-  return { limit, offset };
+  return { offset };
 };
