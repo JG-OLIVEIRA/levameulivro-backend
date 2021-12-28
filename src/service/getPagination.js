@@ -4,7 +4,8 @@ module.exports = (page, count) => {
   if (count && page) {
     offset = count * page - count;
   }
-  const limit = Number(count),
- 
+
+  const limit = Number(count);
+
   return { limit, offset };
 };
