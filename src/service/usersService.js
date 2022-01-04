@@ -96,7 +96,7 @@ module.exports = {
       ],
     });
   },
-  findAllBooksByUserId: async (id) => {
+  findAllBooksByUserId: async (id, limit, offset) => {
     return await db.User.findByPk(id, {
       attributes: [],
       include: {
@@ -125,6 +125,8 @@ module.exports = {
           ],
         },
       },
+      limit,
+      offset,
     });
   },
   findAllExchangesByUserId: async (id) => {

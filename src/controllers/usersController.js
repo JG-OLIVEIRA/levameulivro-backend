@@ -1,6 +1,7 @@
 const usersService = require("../service/usersService");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const getPagination = require("../service/getPagination");
 
 module.exports = {
   createAccount: async (req, res) => {
@@ -121,9 +122,13 @@ module.exports = {
   getMyBooks: async (req, res) => {
     const decoded = req.headers.authorization;
 
+    const { page, limit } = req.query;
+
     const { id } = decoded;
 
-    const myBooks = await usersService.findAllBooksByUserId(id);
+    const { offset } = getPagination(page, limit);
+
+    const myBooks = await usersService.findAllBooksByUserId(id, limit, offset);
 
     return res.status(200).send({ status: 200, your_books: myBooks });
   },
