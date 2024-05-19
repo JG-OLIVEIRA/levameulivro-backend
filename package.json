@@ -6,19 +6,20 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js --ignore __tests__",
-    "pretest": "set NODE_ENV=test && sequelize db:migrate",
-    "test": "set NODE_ENV=test && jest",
-    "posttest": "set NODE_ENV=test && sequelize db:migrate:undo:all"
+    "pretest": "cross-env NODE_ENV=test sequelize db:migrate",
+    "test": "cross-env NODE_ENV=test jest",
+    "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
-    "factory-girl": "^5.0.4",
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
     "express": "^4.16.4",
+    "factory-girl": "^5.0.4",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^3.9.7",
