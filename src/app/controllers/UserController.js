@@ -2,14 +2,7 @@ const { User } = require("../models");
 
 class UserController {
   async store(req, res) {
-    const {  
-      name,
-      email, 
-      password, 
-      avatar, 
-      birthDate, 
-      zipCode
-    } = req.body;
+    const { name, email, password, avatar, birthDate, zipCode } = req.body;
 
     if (await User.findOne({ where: { email } })) {
       return res.status(401).json({ message: "The user already exists." });
@@ -26,9 +19,13 @@ class UserController {
       credit: 1,
     });
 
-    return res.json({
-      token: user.generateToken()
-    });
+    return res.status(201).json(
+      { 
+        status: 201,
+        token: user.generateToken(),
+        message: "The user was created."
+      }
+    );
   }
 }
 
