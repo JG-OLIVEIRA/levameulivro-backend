@@ -13,7 +13,7 @@ describe("User", () => {
     const user = await User.create({
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      password: "12345678",
+      password: faker.internet.password(),
       avatar: faker.image.avatar(),
       birth_date: faker.date.birthdate(),
       zip_code: faker.location.zipCode(),
@@ -21,7 +21,7 @@ describe("User", () => {
       credit: faker.number.int(100),
     });
 
-    const compareHash = await bcrypt.compare("12345678", user.password_hash);
+    const compareHash = await bcrypt.compare(user.password, user.password_hash);
 
     expect(compareHash).toBe(true);
   });
