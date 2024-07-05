@@ -10,18 +10,21 @@ describe("User's CRUD", () => {
     await truncate();
   });
 
-  it("Should return a token when a user is created.", async () => {
-    const response = await request(app)
-      .post("/users")
-      .send({
-        name: faker.person.fullName(),
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-        avatar: faker.image.avatar(),
-        birthDate: faker.date.birthdate(),
-        zipCode: faker.location.zipCode()
-      });
+  const user = {
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    avatar: faker.image.avatar(),
+    birthDate: faker.date.birthdate(),
+    zipCode: faker.location.zipCode()
+  }
 
+  it("Should create a new user successfully.", async () => {
+    const response = await request(app).post("/users").send(user);
+    
+    expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("token");
-  });
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.message).toBe("The user was created.");
+  });  
 });
