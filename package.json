@@ -1,11 +1,12 @@
 {
   "name": "levameulivro-backend",
-  "version": "1.0.2",
-  "main": "index.js",
+  "version": "1.0.0",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js --ignore __tests__",
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js --ignore __tests__",
+    "migrate": "sequelize-cli db:migrate",
     "pretest": "cross-env NODE_ENV=test sequelize db:migrate",
     "test": "cross-env NODE_ENV=test jest",
     "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all"
@@ -23,7 +24,8 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^3.9.7",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
     "jest": "^24.1.0",
