@@ -28,9 +28,10 @@ describe("Authentication", () => {
         email: user.email,
         password: user.password
       });
-    
+
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("message");
+    expect(response.body).toHaveProperty("token");
     expect(response.body.message).toBe("The user was authenticated");
   });
 
@@ -41,7 +42,7 @@ describe("Authentication", () => {
         email: faker.internet.email(),
         password: faker.internet.password()
       });
-    
+
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message");
     expect(response.body.message).toBe("The user does not exist.");
@@ -56,10 +57,10 @@ describe("Authentication", () => {
         email: user.email,
         password: faker.internet.password()
       });
-    
+
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
     expect(response.body.message).toBe("The user's password is incorret.");
   });
-  
+
 });
