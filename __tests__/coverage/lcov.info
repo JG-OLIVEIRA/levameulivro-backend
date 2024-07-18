@@ -1,8 +1,8 @@
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app.js
+SF:/home/jorge/development/levameulivro-backend/src/app.js
 FN:8,(anonymous_0)
-FN:15,(anonymous_1)
-FN:19,(anonymous_2)
+FN:14,(anonymous_1)
+FN:18,(anonymous_2)
 FNF:3
 FNH:3
 FNDA:2,(anonymous_0)
@@ -11,11 +11,11 @@ FNDA:2,(anonymous_2)
 DA:1,2
 DA:5,2
 DA:9,2
+DA:10,2
 DA:11,2
-DA:12,2
-DA:16,2
-DA:20,2
-DA:24,2
+DA:15,2
+DA:19,2
+DA:23,2
 LF:8
 LH:8
 BRDA:2,0,0,2
@@ -24,7 +24,7 @@ BRF:2
 BRH:1
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\routes.js
+SF:/home/jorge/development/levameulivro-backend/src/routes.js
 FNF:0
 FNH:0
 DA:1,2
@@ -39,7 +39,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\server.js
+SF:/home/jorge/development/levameulivro-backend/src/server.js
 FNF:0
 FNH:0
 DA:1,0
@@ -52,7 +52,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\controllers\SessionController.js
+SF:/home/jorge/development/levameulivro-backend/src/app/controllers/SessionController.js
 FN:4,(anonymous_0)
 FNF:1
 FNH:1
@@ -76,7 +76,7 @@ BRF:4
 BRH:4
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\controllers\UserController.js
+SF:/home/jorge/development/levameulivro-backend/src/app/controllers/UserController.js
 FN:4,(anonymous_0)
 FNF:1
 FNH:1
@@ -96,7 +96,7 @@ BRF:2
 BRH:1
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\middleware\auth.js
+SF:/home/jorge/development/levameulivro-backend/src/app/middleware/auth.js
 FN:4,(anonymous_0)
 FNF:1
 FNH:0
@@ -121,7 +121,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\models\Book.js
+SF:/home/jorge/development/levameulivro-backend/src/app/models/Book.js
 FN:1,(anonymous_0)
 FN:14,(anonymous_1)
 FNF:2
@@ -140,7 +140,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\models\Exchange.js
+SF:/home/jorge/development/levameulivro-backend/src/app/models/Exchange.js
 FN:1,(anonymous_0)
 FN:12,(anonymous_1)
 FNF:2
@@ -159,7 +159,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\models\User.js
+SF:/home/jorge/development/levameulivro-backend/src/app/models/User.js
 FN:4,(anonymous_0)
 FN:20,(anonymous_1)
 FN:29,(anonymous_2)
@@ -194,7 +194,7 @@ BRF:2
 BRH:1
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\app\models\index.js
+SF:/home/jorge/development/levameulivro-backend/src/app/models/index.js
 FN:18,(anonymous_0)
 FN:23,(anonymous_1)
 FN:31,(anonymous_2)
@@ -231,7 +231,7 @@ BRF:5
 BRH:4
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\config\database.js
+SF:/home/jorge/development/levameulivro-backend/src/config/database.js
 FNF:0
 FNH:0
 DA:1,3
@@ -246,7 +246,7 @@ BRF:4
 BRH:2
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\database\migrations\20240518160322-create_user_table.js
+SF:/home/jorge/development/levameulivro-backend/src/database/migrations/20240518160322-create_user_table.js
 FN:5,(anonymous_0)
 FN:57,(anonymous_1)
 FNF:2
@@ -262,7 +262,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\database\migrations\20240518162010-create_book_table.js
+SF:/home/jorge/development/levameulivro-backend/src/database/migrations/20240518162010-create_book_table.js
 FN:5,(anonymous_0)
 FN:50,(anonymous_1)
 FNF:2
@@ -278,7 +278,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\Windows\Development\levameulivro-backend\src\database\migrations\20240518162054-create_exchanges_table.js
+SF:/home/jorge/development/levameulivro-backend/src/database/migrations/20240518162054-create_exchanges_table.js
 FN:5,(anonymous_0)
 FN:41,(anonymous_1)
 FNF:2
