@@ -15,8 +15,8 @@ describe("Authentication", () => {
     email: faker.internet.email(),
     password: faker.internet.password(),
     avatar: faker.image.avatar(),
-    birthDate: faker.date.birthdate(),
-    zipCode: faker.location.zipCode()
+    birth_date: faker.date.birthdate(),
+    zip_code: faker.location.zipCode()
   }
 
   it("Should return a JWT if the user's credentials are valid", async () => {
@@ -32,7 +32,7 @@ describe("Authentication", () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("message");
     expect(response.body).toHaveProperty("token");
-    expect(response.body.message).toBe("The user was authenticated");
+    expect(response.body.message).toBe("The user was authenticated.");
   });
 
   it("Should not return a jwt if the user does not exist.", async () => {

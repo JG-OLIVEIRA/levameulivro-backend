@@ -14,14 +14,7 @@ class SessionController {
     if (!token) {
       return res.status(401).json({ message: "The user's password is incorret." });
     }
-
-    return res.status(200).json(
-      {
-        status: 200,
-        token: token,
-        message: "The user was authenticated"
-      }
-    );
+    return res.status(200).json({ status: 200, token: token, message: "The user was authenticated." });
   }
 }
 

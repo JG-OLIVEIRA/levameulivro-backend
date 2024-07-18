@@ -15,8 +15,8 @@ describe("User's CRUD", () => {
     email: faker.internet.email(),
     password: faker.internet.password(),
     avatar: faker.image.avatar(),
-    birthDate: faker.date.birthdate(),
-    zipCode: faker.location.zipCode()
+    birth_date: faker.date.birthdate(),
+    zip_code: faker.location.zipCode()
   }
 
   it("Should create a new user successfully.", async () => {
