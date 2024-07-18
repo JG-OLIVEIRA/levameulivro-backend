@@ -17,7 +17,7 @@ describe("User", () => {
       avatar: faker.image.avatar(),
       birth_date: faker.date.birthdate(),
       zip_code: faker.location.zipCode(),
-      completed_exchanges: faker.number.int(100),
+      completed_swaps: faker.number.int(100),
       credit: faker.number.int(100),
     });
 

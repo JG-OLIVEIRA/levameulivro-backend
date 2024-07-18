@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users',
+    await queryInterface.createTable('swaps',
       {
         id: {
           type: Sequelize.INTEGER,
@@ -11,36 +11,20 @@ module.exports = {
           autoIncrement: true,
           allowNull: false
         },
-        name: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        email: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        password_hash: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        avatar: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        birth_date: {
-          type: Sequelize.DATE,
-          allowNull: false
-        },
-        zip_code: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        completed_swaps: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        credit: {
+        user_id: {
           type: Sequelize.INTEGER,
+          allowNull: false
+        },
+        book_id: {
+          type: Sequelize.INTEGER,
+          allowNull: false
+        },
+        accepted: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false
+        },
+        completed: {
+          type: Sequelize.BOOLEAN,
           allowNull: false
         },
         created_at: {
@@ -55,6 +39,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('swaps');
   }
 };

@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Book.associate = function (models) {
-    Book.hasOne(models.Exchange, {
+    Book.hasOne(models.Swaps, {
       foreignKey: "book_id",
-      as: "exchanges",
+      as: "swaps",
     });
     Book.belongsTo(models.User, {
       foreignKey: "user_id",

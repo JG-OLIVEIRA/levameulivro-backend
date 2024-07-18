@@ -21,10 +21,10 @@ describe("User's CRUD", () => {
 
   it("Should create a new user successfully.", async () => {
     const response = await request(app).post("/users").send(user);
-    
+
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("token");
+    expect(response.body).toHaveProperty("email");
     expect(response.body).toHaveProperty("message");
     expect(response.body.message).toBe("The user was created.");
-  });  
+  });
 });

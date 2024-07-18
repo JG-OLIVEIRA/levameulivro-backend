@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Exchange = sequelize.define(
-    "Exchange",
+  const Swaps = sequelize.define(
+    "Swaps",
     {
       user_id: DataTypes.INTEGER,
       book_id: DataTypes.INTEGER,
@@ -9,16 +9,16 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Exchange.associate = function (models) {
-    Exchange.belongsTo(models.Book, {
+  Swaps.associate = function (models) {
+    Swaps.belongsTo(models.Book, {
       foreignKey: "book_id",
       as: "books",
     });
-    Exchange.belongsTo(models.User, {
+    Swaps.belongsTo(models.User, {
       foreignKey: "user_id",
       as: "users",
     });
   };
 
-  return Exchange;
+  return Swaps;
 };

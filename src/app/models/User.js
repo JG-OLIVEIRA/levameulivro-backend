@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       birth_date: DataTypes.DATE,
       zip_code: DataTypes.INTEGER,
-      completed_exchanges: DataTypes.INTEGER,
+      completed_swaps: DataTypes.INTEGER,
       credit: DataTypes.INTEGER,
     },
     {
@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
-  
-  User.prototype.checkPassword = function(password) {
+
+  User.prototype.checkPassword = function (password) {
     return bcrypt.compare(password, this.password_hash);
   };
 
-  User.prototype.generateToken = function() {
+  User.prototype.generateToken = function () {
     return jwt.sign({ id: this.id }, process.env.JWT_KEY);
   };
 
@@ -39,9 +39,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "user_id",
       as: "books",
     });
-    User.hasMany(models.Exchange, {
+    User.hasMany(models.Swaps, {
       foreignKey: "user_id",
-      as: "exchanges",
+      as: "swaps",
     });
   };
 
