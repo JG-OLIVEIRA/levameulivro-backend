@@ -2,13 +2,13 @@ const { User } = require("../models");
 
 class UserController {
   async store(req, res) {
-    const {  
+    const {
       name,
-      email, 
-      password, 
-      avatar, 
-      birthDate, 
-      zipCode
+      email,
+      password,
+      avatar,
+      birth_date,
+      zip_code
     } = req.body;
 
     if (await User.findOne({ where: { email } })) {
@@ -20,8 +20,8 @@ class UserController {
       email: email,
       password: password,
       avatar: avatar,
-      birth_date: birthDate,
-      zip_code: zipCode,
+      birth_date: birth_date,
+      zip_code: zip_code,
       completed_exchanges: 0,
       credit: 1,
     });
