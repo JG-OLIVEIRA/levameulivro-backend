@@ -21,6 +21,7 @@
     "faker": "^4.1.0",
     "jsonwebtoken": "^8.5.0",
     "mysql2": "^3.9.7",
+    "pg": "^8.12.0",
     "sequelize": "^4.42.0"
   },
   "devDependencies": {
