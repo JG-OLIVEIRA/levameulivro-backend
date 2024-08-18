@@ -21,8 +21,6 @@ describe("User", () => {
       credit: faker.number.int(100),
     });
 
-    console.log(user)
-
     const compareHash = await bcrypt.compare(user.password, user.password_hash);
 
     expect(compareHash).toBe(true);
