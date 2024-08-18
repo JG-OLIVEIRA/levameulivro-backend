@@ -1,10 +1,11 @@
 {
   "name": "levameulivro-backend",
   "version": "1.0.2",
-  "main": "index.js",
+  "main": "./src/server.js",
   "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
+    "build": "sequelize db:migrate",
     "dev": "nodemon src/server.js --ignore __tests__",
     "pretest": "cross-env NODE_ENV=test sequelize db:migrate",
     "test": "cross-env NODE_ENV=test jest",
