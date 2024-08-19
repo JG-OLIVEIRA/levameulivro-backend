@@ -4,6 +4,7 @@ const { faker } = require('@faker-js/faker');
 
 const app = require("../../src/app");
 const truncate = require("../utils/truncate");
+const factory = require("../factories");
 
 describe("User's CRUD", () => {
   beforeEach(async () => {
@@ -22,6 +23,42 @@ describe("User's CRUD", () => {
         zip_code: faker.location.zipCode()
       });
 
+    expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("token");
+  });
+
+  it("Should return a token when a user is autenticated.", async () => {
+    const user = await factory.create("User", {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    });
+
+    const response = await request(app)
+      .post("/users")
+      .send({
+        email: user.email,
+        password: user.password
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("token");
+  });
+
+  it("Should return a message with a invalid email or password", async () => {
+    const user = await factory.create("User", {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    });
+
+    const response = await request(app)
+      .post("/users")
+      .send({
+        email: user.email,
+        password: faker.internet.password()
+      });
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.message).toBe("Invalid email or password.");
   });
 });
