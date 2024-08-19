@@ -3,6 +3,9 @@ require("dotenv").config({
 });
 
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const path = require('path');
 
 class AppController {
   constructor() {
@@ -17,6 +20,7 @@ class AppController {
 
   routes() {
     this.express.use(require("./routes"));
+    this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, '../swagger.yaml'))))
   }
 }
 

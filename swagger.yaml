@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: User API
+  description: API para criar e autenticar usuários.
+  version: 1.0.0
+
+paths:
+  /users:
+    post:
+      summary: Cria um novo usuário ou autentica um usuário existente.
+      description: Cria um novo usuário se o email não existir. Se o usuário já existir, autentica com email e senha.
+      requestBody:
+        description: Dados para criar ou autenticar um usuário.
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/UserCreation'
+                - $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Sucesso ao criar ou autenticar usuário.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token de autenticação.
+        '401':
+          description: Falha na autenticação ou criação do usuário.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensagem de erro.
+
+components:
+  schemas:
+    UserCreation:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Shelly Wunsch
+        email:
+          type: string
+          format: email
+          example: Carmen92@hotmail.com
+        password:
+          type: string
+          example: KgYCEzczp402YhB
+        avatar:
+          type: string
+          format: uri
+          example: https://avatars.githubusercontent.com/u/73645521
+        birth_date:
+          type: string
+          format: date-time
+          example: 1986-05-30T20:27:54.956Z
+        zip_code:
+          type: string
+          example: 22451-730
+      required:
+        - email
+        - password
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: Carmen92@hotmail.com
+        password:
+          type: string
+          example: KgYCEzczp402YhB
+      required:
+        - email
+        - password
