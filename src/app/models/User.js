@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       birth_date: DataTypes.DATE,
       zip_code: DataTypes.INTEGER,
-      completed_exchanges: DataTypes.INTEGER,
       credit: DataTypes.INTEGER,
     },
     {
@@ -38,10 +37,6 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Book, {
       foreignKey: "user_id",
       as: "books",
-    });
-    User.hasMany(models.Exchange, {
-      foreignKey: "user_id",
-      as: "exchanges",
     });
   };
 
