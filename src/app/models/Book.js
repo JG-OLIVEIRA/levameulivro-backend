@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Book.associate = function (models) {
-    Book.hasOne(models.Exchange, {
-      foreignKey: "book_id",
-      as: "exchanges",
-    });
     Book.belongsTo(models.User, {
       foreignKey: "user_id",
       as: "users",
