@@ -19,25 +19,16 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    - name: Build Application
-      run: npm run build
-
-    - name: Test Docker Login
-      run: |
-        echo "DOCKER_USER: ${{ secrets.DOCKER_USER }}"
-        echo "DOCKER_PASS: ${{ secrets.DOCKER_PASS }}"
-        echo "Login Test Completed"
-
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
-        username: ${{ env.DOCKER_USER }}
-        password: ${{ env.DOCKER_PASS }}
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: guilhermebauer/fitness_tracking_status:latest
+        tags: jorgegdoliveira8/levameulivro-backend:latest
         context: .
         file: ./Dockerfile
