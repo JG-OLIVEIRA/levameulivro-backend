@@ -1,0 +1,34 @@
+name: Continuous Integration with Github, Github Actions, and Docker Hub
+
+on:
+  push:
+    branches: "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # Você pode ajustar a versão do Node.js conforme necessário
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        tags: jorgegdoliveira8/levameulivro-backend:latest
+        context: .
+        file: ./Dockerfile

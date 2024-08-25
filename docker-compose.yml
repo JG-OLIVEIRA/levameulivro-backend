@@ -16,9 +16,6 @@ services:
 
   app:
     image: jorgegdoliveira8/levameulivro-backend
-    build:
-      context: .
-      dockerfile: Dockerfile
     container_name: levameulivro-backend
     environment:
       DB_HOST: ${DB_HOST}
