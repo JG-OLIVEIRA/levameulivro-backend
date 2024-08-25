@@ -14,10 +14,19 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'  # Você pode ajustar a versão do Node.js conforme necessário
+        node-version: '18'
 
     - name: Install Dependencies
       run: npm install
+
+    - name: Build Application
+      run: npm run build
+
+    - name: Test Docker Login
+      run: |
+        echo "DOCKER_USER: ${{ secrets.DOCKER_USER }}"
+        echo "DOCKER_PASS: ${{ secrets.DOCKER_PASS }}"
+        echo "Login Test Completed"
 
     - name: Login to DockerHub
       uses: docker/login-action@v2
@@ -29,6 +38,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: jorgegdoliveira8/levameulivro-backend:latest
+        tags: guilhermebauer/fitness_tracking_status:latest
         context: .
         file: ./Dockerfile
