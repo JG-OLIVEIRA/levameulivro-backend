@@ -1,7 +1,7 @@
 name: Continuous Integration with Github, Github Actions, and Docker Hub
 
 on:
-  push:
+  pull_request:
     branches: main
 
 jobs:
@@ -18,20 +18,16 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-  push:
-    runs-on: ubuntu-latest
-    steps:
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: jorgegdoliveira8/levameulivro-backend:latest
-          context: .
-          file: ./Dockerfile
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        tags: jorgegdoliveira8/levameulivro-backend:latest
+        context: .
+        file: ./Dockerfile
