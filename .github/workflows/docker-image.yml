@@ -1,7 +1,7 @@
 name: Continuous Integration with Github, Github Actions, and Docker Hub
 
 on:
-  pull_request:
+  push:
     branches: main
 
 jobs:
