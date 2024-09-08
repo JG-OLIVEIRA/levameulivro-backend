@@ -30,7 +30,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.prototype.generateToken = function () {
-    return jwt.sign({ id: this.id }, process.env.JWT_KEY);
+    return jwt.sign({ id: this.id }, process.env.JWT_KEY, {
+      expiresIn: '1h', // Token expira em 1 hora
+    });
   };
 
   User.associate = function (models) {
